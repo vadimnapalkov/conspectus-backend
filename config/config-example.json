@@ -1,0 +1,5 @@
+{
+  "env": "development",
+  "port": "3000",
+  "frontDomain": "http://localhost:8080"
+}
