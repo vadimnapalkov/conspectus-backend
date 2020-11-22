@@ -6,16 +6,24 @@ import logger from 'morgan';
 import cors from 'cors';
 import { createConnection, getRepository } from 'typeorm';
 import { TypeormStore } from 'typeorm-store';
+import dotenv from 'dotenv';
 
 import { AppRoutes } from './routes';
 import errorHandler from './middlewares/errorHandler';
 import { Session } from './entities/Session';
+import { reconnect } from './utils/reconnect';
+
+dotenv.config();
 
 const app = express();
 
 const port = process.env.PORT || 3000;
 
 createConnection()
+  .catch(async error => {
+    console.error(error);
+    await reconnect();
+  })
   .then(() => {
     const repository = getRepository(Session);
 

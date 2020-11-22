@@ -6,8 +6,7 @@ import { User } from '../../entities/User';
 import { userSerializer } from '../../serializers/user';
 
 const requestParams = {
-  email: 'Email',
-  nickname: 'Nickname',
+  login: 'Login',
   password: 'Password'
 };
 

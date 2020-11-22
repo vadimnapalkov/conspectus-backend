@@ -1,16 +1,13 @@
 module.exports = {
+  name: 'default',
   type: 'postgres',
-  url: process.env.DATABASE_URL,
-  logging: false,
-  logger: 'file',
+  url: process.env.PG_URL,
   synchronize: true,
   entities: ['dist/entities/*.js'],
-  migrations: ['dist/migrations/*.js'],
   cli: {
-    entitiesDir: 'src/entities',
-    migrationsDir: 'src/migrations'
+    entitiesDir: 'src/entities'
   },
-  ssl: {
-    rejectUnauthorized: false
+  extra: {
+    ssl: true
   }
 };
