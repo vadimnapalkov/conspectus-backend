@@ -9,7 +9,6 @@ import { TypeormStore } from 'typeorm-store';
 
 import { AppRoutes } from './routes';
 import errorHandler from './middlewares/errorHandler';
-import { reconnect } from './utils/reconnect';
 import { Session } from './entities/Session';
 
 const app = express();
@@ -17,10 +16,6 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 createConnection()
-  .catch(async error => {
-    console.error(error);
-    await reconnect();
-  })
   .then(() => {
     const repository = getRepository(Session);
 
