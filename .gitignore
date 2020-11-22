@@ -1,8 +1,8 @@
 node_modules/
 yarn-error.log
 config/config.json
-ormconfig.js
 app-compiled.js
 dist/
 files/
 ormlogs.log
+.env

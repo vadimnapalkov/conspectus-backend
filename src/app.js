@@ -7,7 +7,6 @@ import cors from 'cors';
 import { createConnection, getRepository } from 'typeorm';
 import { TypeormStore } from 'typeorm-store';
 
-import config from '../config/config';
 import { AppRoutes } from './routes';
 import errorHandler from './middlewares/errorHandler';
 import { reconnect } from './utils/reconnect';
@@ -15,8 +14,10 @@ import { Session } from './entities/Session';
 
 const app = express();
 
+const port = process.env.PORT || 3000;
+
 createConnection()
-  .catch(async (error) => {
+  .catch(async error => {
     console.error(error);
     await reconnect();
   })
@@ -25,7 +26,7 @@ createConnection()
 
     app.use(
       cors({
-        origin: config.frontDomain,
+        origin: process.env.FRONT_DOMAIN,
         credentials: true,
         exposedHeaders: ['Content-Range']
       })
@@ -43,12 +44,12 @@ createConnection()
       })
     );
 
-    AppRoutes.forEach((route) => {
+    AppRoutes.forEach(route => {
       app[route.method](route.path, (req, res, next) => {
         route
           .action(req, res)
           .then(() => next)
-          .catch((err) => next(err));
+          .catch(err => next(err));
       });
     });
 
@@ -57,11 +58,11 @@ createConnection()
     });
     app.use(errorHandler);
 
-    app.listen({ port: config.port }, () => {
-      console.log(`App listening on port ${config.port}!`);
+    app.listen({ port }, () => {
+      console.log(`App listening on port ${port}!`);
     });
   })
-  .catch((error) => {
+  .catch(error => {
     console.error(error);
     process.exit(-1);
   });
